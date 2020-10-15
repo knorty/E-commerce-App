@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import "./header.styles.scss";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
@@ -7,8 +8,7 @@ import { auth } from "../../firebase/firebase.utils";
 
 class Header extends Component {
   signOut = () => {
-    auth.signOut();
-    this.props.history.push("/signin");
+    auth.signOut().then(this.props.history.push("/signin"));
   };
   render() {
     const { currentUser } = this.props;
@@ -39,4 +39,8 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header);
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(withRouter(Header));

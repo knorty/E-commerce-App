@@ -36,6 +36,15 @@ class SignIn extends Component {
     this.setState({ [name]: value });
   };
 
+  googleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.error(error);
+    }
+    this.setState({ redirect: true });
+  };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/" />;
@@ -65,7 +74,7 @@ class SignIn extends Component {
             <CustomButton type="submit"> Sign In</CustomButton>
             <CustomButton
               type="button"
-              onClick={signInWithGoogle}
+              onClick={this.googleSignIn}
               isGoogleSignIn
             >
               {" "}
