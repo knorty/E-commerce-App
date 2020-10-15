@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import "./sign-in.styles.scss";
 
 import FormInput from "../form-input/form-input.component";
@@ -13,7 +12,6 @@ class SignIn extends Component {
     this.state = {
       email: "",
       password: "",
-      redirect: false,
     };
   }
 
@@ -24,7 +22,7 @@ class SignIn extends Component {
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ email: "", password: "", redirect: true });
+      this.setState({ email: "", password: "" });
     } catch (error) {
       console.error(error);
     }
@@ -36,19 +34,7 @@ class SignIn extends Component {
     this.setState({ [name]: value });
   };
 
-  googleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      console.error(error);
-    }
-    this.setState({ redirect: true });
-  };
-
   render() {
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
-    }
     return (
       <div className="sign-in">
         <h2>I already have an account</h2>
@@ -74,7 +60,7 @@ class SignIn extends Component {
             <CustomButton type="submit"> Sign In</CustomButton>
             <CustomButton
               type="button"
-              onClick={this.googleSignIn}
+              onClick={signInWithGoogle}
               isGoogleSignIn
             >
               {" "}
